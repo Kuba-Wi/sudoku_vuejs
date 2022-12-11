@@ -1,18 +1,74 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <SudokuInput ref="inputBoard"/>
+  <div id="buttons_container">
+    <input id="solve_btn" class="btn" type="button" value="Solve" @click="solve">
+    <input id="scan_btn" class="btn" type="button" value="Scan photo">
+    <input id="file_input" type="file" style="display:none">
+    <input id="clear_btn" class="btn" type="button" value="Clear" @click="clear">
   </div>
+  <SudokuResult ref="resultBoard" v-show="showResult"/>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import SudokuInput from '../components/SudokuInput.vue'
+import SudokuResult from '../components/SudokuResult.vue'
+
+import Solver from '../classes/sudokuSolver.js'
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    SudokuInput,
+    SudokuResult
+  },
+  data() {
+    return {
+      showResult: false
+    }
+  },
+  methods: {
+    clear() {
+      this.$refs.inputBoard.clear()
+      this.showResult = false
+    },
+    solve() {
+      this.showResult = false
+      let solver = new Solver(this.$refs.inputBoard.input_values)
+      if (solver.solve()) {
+        this.showResult = true
+        this.$refs.resultBoard.fillBoardValues(solver.sudokuBoard)
+      } else {
+        window.alert("Wrong input. Can't solve")
+      }
+    }
   }
 }
 </script>
+
+<style scoped>
+.btn {
+  height: 50px;
+  width: 100px;
+  text-align: center;
+  font-size: 30px;
+  display: inline-block;
+}
+
+#solve_btn {
+  margin: 20px 10px 0 0;
+}
+
+#scan_btn {
+  width: 180px;
+  margin: 20px 0 0 0;
+}
+
+#clear_btn {
+  margin: 20px 0 0 10px;
+}
+
+#buttons_container {
+  text-align: center;
+  margin-bottom: 10px;
+}
+</style>
