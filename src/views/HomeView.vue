@@ -2,11 +2,13 @@
   <SudokuInput ref="inputBoard"/>
   <div id="buttons_container">
     <input id="solve_btn" class="btn" type="button" value="Solve" @click="solve">
-    <input id="scan_btn" class="btn" type="button" value="Scan photo">
+    <input id="scan_btn" class="btn" type="button" value="Scan photo" @click="scan">
     <input id="file_input" type="file" style="display:none">
     <input id="clear_btn" class="btn" type="button" value="Clear" @click="clear">
   </div>
   <SudokuResult ref="resultBoard" v-show="showResult"/>
+  <img id="imageSrc" src="../classes/sudoku1.jpg" v-show="false">
+  <canvas id="canvasOutput"></canvas>
 </template>
 
 <script>
@@ -14,6 +16,7 @@ import SudokuInput from '../components/SudokuInput.vue'
 import SudokuResult from '../components/SudokuResult.vue'
 
 import Solver from '../classes/sudokuSolver.js'
+import getDigitsFromImg from '../classes/imageprocessing.js'
 
 export default {
   name: 'HomeView',
@@ -40,6 +43,9 @@ export default {
       } else {
         window.alert("Wrong input. Can't solve")
       }
+    },
+    scan() {
+      getDigitsFromImg("imageSrc")
     }
   }
 }
