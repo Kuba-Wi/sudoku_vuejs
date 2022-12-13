@@ -1,19 +1,25 @@
-var cv = require("./opencv.js")
+const cv = require("opencv.js")
+import * as tf from '@tensorflow/tfjs'
 
 export default function getDigitsFromImg(imgId) {
     let img = cv.imread(imgId)
+    cv.imshow('canvasOutput', img);
 
     const board = findSudokuBoard(img)
     const boxes = splitBoxes(board)
-    cv.imshow('canvasOutput', boxes[79]);
+
+    // tf.load_model('model-OCR.h5')
 }
 
 function splitBoxes(img) {
     const boxes = []
     for (let i = 0; i < 9; ++i) {
         for (let j = 0; j < 9; ++j) {
-            boxes.push(img.rowRange(i * img.rows / 9, (i + 1) * img.rows / 9)
-                          .colRange(j * img.rows / 9, (j + 1) * img.rows / 9))
+            const box = img.rowRange(i * img.rows / 9, (i + 1) * img.rows / 9)
+                           .colRange(j * img.rows / 9, (j + 1) * img.rows / 9)
+            
+            cv.resize(box, box, new cv.Size(48, 48))
+            boxes.push(box)
         }
     }
     return boxes
