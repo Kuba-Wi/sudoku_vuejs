@@ -9,7 +9,10 @@
   "dependencies": {
     "@tensorflow/tfjs": "^4.1.0",
     "core-js": "^3.8.3",
+    "crypto": "^1.0.1",
+    "fs": "^0.0.1-security",
     "opencv.js": "^1.2.1",
+    "path": "^0.12.7",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
@@ -17,10 +20,5 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0"
-  },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "crypto": false
   }
 }
